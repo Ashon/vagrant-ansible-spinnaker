@@ -1,0 +1,22 @@
+- name: Minio - run minio storage container
+  become: yes
+  docker_container:
+    name: minio_storage
+    image: minio/minio
+    env:
+      MINIO_ACCESS_KEY: "{{ minio.access_key }}"
+      MINIO_SECRET_KEY: "{{ minio.secret_key }}"
+    ports:
+      - 9001:9000
+    volumes:
+      - /data/minio:/export
+
+- name: Minio - config halyard storage config
+  shell: echo {{ minio.secret_key }} | hal config storage s3 edit \
+    --color false \
+    --endpoint http://localhost:9001 \
+    --access-key-id {{ minio.access_key }} \
+    --secret-access-key
+
+- name: Minio - config halyard storage type to s3
+  shell: hal config storage edit --type s3 --color false

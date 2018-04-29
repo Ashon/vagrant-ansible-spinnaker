@@ -1,0 +1,6 @@
+minio:
+  access_key: R5FBLA5N4B44HVL2Y58V
+  secret_key: UnJQKKyOaRE0Uhc9xGkCoaq2DH0QLroO2WlZoE
+
+spinnaker:
+  version: 1.7.1
