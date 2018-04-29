@@ -10,7 +10,10 @@ Vagrant.configure("2") do |config|
 
     spinnaker.vm.network "private_network", ip: "192.168.33.10"
     spinnaker.vm.provision :shell, inline: <<-EOF
-      sudo apt update && sudo apt install -y python
+      sudo apt-get update
+      sudo apt-get install -y python
+      wget https://bootstrap.pypa.io/get-pip.py
+      python get-pip.py
     EOF
 
     spinnaker.vm.provision :ansible do |ansible|

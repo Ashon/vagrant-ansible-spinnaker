@@ -1,0 +1,22 @@
+- name: Docker - check docker is exists
+  shell: /usr/bin/env docker --version
+  register: docker_exists
+  ignore_errors: true
+  changed_when: false
+
+- name: Docker - download docker install script
+  get_url:
+    url: https://get.docker.com
+    dest: /tmp/get-docker.sh
+    mode: 0755
+  when: docker_exists.rc != 0
+
+- name: Docker - install docker
+  become: yes
+  shell: /tmp/get-docker.sh
+  when: docker_exists.rc != 0
+
+- name: Docker - install docker-py pip package
+  become: yes
+  pip:
+    name: docker-py
