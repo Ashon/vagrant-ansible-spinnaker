@@ -1,0 +1,23 @@
+- name: Halyard - check halyard is exists
+  shell: /usr/bin/env hal -v
+  register: halyard_exists
+  ignore_errors: true
+  changed_when: false
+
+- name: Halyard - download installation script
+  get_url:
+    url: https://raw.githubusercontent.com/spinnaker/halyard/master/install/debian/InstallHalyard.sh
+    dest: /tmp/InstallHalyard.sh
+    mode: 0755
+  when: halyard_exists.rc != 0
+
+- name: Halyard - install halyard
+  become: yes
+  shell: /tmp/InstallHalyard.sh
+  environment:
+    HAL_USER: "{{ ansible_ssh_user }}"
+  when: halyard_exists.rc != 0
+
+- name: Halyard - config deploy environment as localdebian
+  shell: hal config deploy edit --type localdebian
+  when: halyard_exists.rc != 0

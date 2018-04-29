@@ -1,3 +1,3 @@
 - hosts: all
   tasks:
-    - ping:
+    - include_tasks: tasks/00_halyard.yml

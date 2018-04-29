@@ -2,15 +2,20 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  # download box from vagrant cloud, use ubuntu official
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.define "spinnaker", primary: true do |spinnaker|
+    spinnaker.vm.box = "ubuntu/bionic64"
 
-  config.vm.provision :shell, inline: <<-EOF
-    sudo apt update && sudo apt install -y python
-  EOF
+    spinnaker.ssh.pty = false
+    spinnaker.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = './playbooks/spinnaker.yml'
-    ansible.raw_arguments = ["-v"]
+    spinnaker.vm.network "private_network", ip: "192.168.33.10"
+    spinnaker.vm.provision :shell, inline: <<-EOF
+      sudo apt update && sudo apt install -y python
+    EOF
+
+    spinnaker.vm.provision :ansible do |ansible|
+      ansible.playbook = './playbooks/spinnaker.yml'
+      ansible.raw_arguments = ["-v"]
+    end
   end
 end
