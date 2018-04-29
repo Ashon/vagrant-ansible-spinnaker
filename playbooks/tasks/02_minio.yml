@@ -6,10 +6,11 @@
     env:
       MINIO_ACCESS_KEY: "{{ minio.access_key }}"
       MINIO_SECRET_KEY: "{{ minio.secret_key }}"
+    command: server /data
     ports:
       - 9001:9000
     volumes:
-      - /data/minio:/export
+      - /data/minio:/data
 
 - name: Minio - config halyard storage config
   shell: echo {{ minio.secret_key }} | hal config storage s3 edit \
