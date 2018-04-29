@@ -3,7 +3,7 @@
 
 Vagrant.configure("2") do |config|
   config.vm.define "spinnaker", primary: true do |spinnaker|
-    spinnaker.vm.box = "ubuntu/bionic64"
+    spinnaker.vm.box = "ubuntu/xenial64"
 
     spinnaker.ssh.pty = false
     spinnaker.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
