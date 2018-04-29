@@ -1,7 +1,35 @@
+- name: Deploy - create service settings directory
+  file:
+    path: ~/.hal/default/service-settings/
+    state: directory
+
+- name: Deploy - copy gate, deck configuration
+  copy:
+    src: "{{ item }}"
+    dest: "~/.hal/default/service-settings/{{ item }}"
+  with_items:
+    - gate.yml
+    - deck.yml
+
 - name: Deploy - config halyard spinnaker version
   shell: hal config version edit \
     --color false \
     --version {{ spinnaker.version }}
+
+- name: Deploy - configuration ui endpoint
+  shell: hal config security ui edit \
+    --color false \
+    --override-base-url http://{{ spinnaker.cname }}:9000
+
+- name: Deploy - configuration api endpoint
+  shell: hal config security api edit \
+    --color false \
+    --override-base-url http://{{ spinnaker.cname }}:8084
+
+- name: Deploy - configuration api cors
+  shell: hal config security api edit \
+    --color false \
+    --cors-access-pattern http://{{ spinnaker.cname }}:9000
 
 - name: Deploy - deploy spinnaker
   become: yes
