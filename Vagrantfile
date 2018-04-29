@@ -2,7 +2,16 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox" do |v|
+    v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+  end
+
   config.vm.define "spinnaker", primary: true do |spinnaker|
+    spinnaker.vm.provider "virtualbox" do |v|
+      v.memory = 4096
+      v.cpus = 4
+    end
+
     spinnaker.vm.box = "ubuntu/xenial64"
 
     spinnaker.ssh.pty = false
