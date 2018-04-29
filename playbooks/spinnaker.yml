@@ -2,6 +2,14 @@
   vars_files:
     - ../variables.yml
   tasks:
-    - include_tasks: tasks/00_halyard.yml
-    - include_tasks: tasks/01_docker.yml
-    - include_tasks: tasks/02_minio.yml
+    - import_tasks: tasks/00_halyard.yml
+      tags: halyard
+
+    - import_tasks: tasks/01_docker.yml
+      tags: docker
+
+    - import_tasks: tasks/02_minio.yml
+      tags: minio
+
+    - import_tasks: tasks/03_deploy.yml
+      tags: deploy
