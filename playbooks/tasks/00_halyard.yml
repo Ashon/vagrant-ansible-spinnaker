@@ -1,5 +1,5 @@
 - name: Halyard - check halyard is exists
-  shell: /usr/bin/env hal -v
+  shell: /usr/bin/env hal -v --color false
   register: halyard_exists
   ignore_errors: true
   changed_when: false
@@ -19,5 +19,5 @@
   when: halyard_exists.rc != 0
 
 - name: Halyard - config deploy environment as localdebian
-  shell: hal config deploy edit --type localdebian
+  shell: hal config deploy edit --type localdebian --color false
   when: halyard_exists.rc != 0
