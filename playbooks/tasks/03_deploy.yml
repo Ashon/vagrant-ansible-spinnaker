@@ -1,0 +1,8 @@
+- name: Deploy - config halyard spinnaker version
+  shell: hal config version edit \
+    --color false \
+    --version {{ spinnaker.version }}
+
+- name: Deploy - deploy spinnaker
+  become: yes
+  shell: hal deploy apply --color false

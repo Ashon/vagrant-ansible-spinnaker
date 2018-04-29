@@ -3,4 +3,4 @@ minio:
   secret_key: UnJQKKyOaRE0Uhc9xGkCoaq2DH0QLroO2WlZoE
 
 spinnaker:
-  version: 1.7.1
+  version: 1.7.0
